@@ -1,44 +1,96 @@
 import React, { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { addData } from "../Reducers/dataReducer";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 export default function Form() {
-    const dispatch = useDispatch(); // Add dispatch for Redux action
+  const dispatch = useDispatch(); // Ajouter dispatch pour l'action Redux
 
-    // Create states to store input values
-    const [inputFirstName, setInputFirstName] = useState("");
-    const [inputLastName, setInputLastName] = useState("");
-    const [inputBirthDate, setInputBirthDate] = useState("");
-    const [inputStartDate, setInputStartDate] = useState("");
-    const [inputStreet, setInputStreet] = useState("");
-    const [inputCity, setInputCity] = useState("");
-    const [inputState, setInputState] = useState("");
-    const [inputZipCode, setInputZipCode] = useState("");
-    const [inputDepartment, setInputDepartment] = useState("");
-  
-    const handleSave = () => {
-      // Retrieve employee data from the form inputs
-      const data = {
-        firstName: inputFirstName,
-        lastName: inputLastName,
-        birthDate: inputBirthDate,
-        startDate: inputStartDate,
-        address: {
-          street: inputStreet,
-          city: inputCity,
-          state: inputState,
-          zipCode: inputZipCode,
-        },
-        department: inputDepartment,
-      };
-  
-      
-      let employeeDataList = JSON.parse(localStorage.getItem('employeeDataList')) || []; // Retrieve existing employee data from localStorage or create an empty array if it doesn't exist
-      employeeDataList.push(data); // Add the new employee data to the array
-      localStorage.setItem('employeeDataList', JSON.stringify(employeeDataList)); // Store the updated employee data in localStorage
-  
-      dispatch(addData(data)); // Dispatch an action to add the employee data to the Redux store
+  // Créer des états pour stocker les valeurs d'entrée
+  const [inputFirstName, setInputFirstName] = useState("");
+  const [inputLastName, setInputLastName] = useState("");
+  const [inputBirthDate, setInputBirthDate] = useState("");
+  const [inputStartDate, setInputStartDate] = useState("");
+  const [inputStreet, setInputStreet] = useState("");
+  const [inputCity, setInputCity] = useState("");
+  const [inputState, setInputState] = useState("");
+  const [inputZipCode, setInputZipCode] = useState("");
+  const [inputDepartment, setInputDepartment] = useState("");
+
+  // Créer un état pour la fenêtre modale de confirmation
+  const [showModal, setShowModal] = useState(false);
+
+  function ConfirmModal() {
+    return (
+      <div className="backgroundModal">
+        <div id="confirmation" className="modal">
+          Employee Created!      
+          <FontAwesomeIcon
+            icon={faTimes}
+            style={{
+              color: "rgb(255, 255, 255)",
+              backgroundColor: "black",
+              padding: "7px 9px",
+              borderRadius: "25px",
+              position: "absolute",
+              top: "-15px",
+              right: "-15px",
+            }}
+            onClick={closeConfirmModal}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  const openConfirmModal = () => {
+    setShowModal(true);
+  };
+
+  const closeConfirmModal = () => {
+    setShowModal(false);
+  };
+
+  const handleSave = () => {
+    // Vérifiez si tous les champs de texte sont remplis
+    const inputs = document.querySelectorAll('input')
+    let isFormValid = true;
+    inputs.forEach(input => {
+      if (input.value.trim() === "") {
+        isFormValid = false;
+      }
+    });
+
+    if (!isFormValid) {
+      alert('Veuillez remplir tous les champs de texte.');
+      return;
+    }
+
+    // Récupérer les données de l'employé à partir des entrées du formulaire
+    const data = {
+      firstName: inputFirstName,
+      lastName: inputLastName,
+      birthDate: inputBirthDate,
+      startDate: inputStartDate,
+      address: {
+        street: inputStreet,
+        city: inputCity,
+        state: inputState,
+        zipCode: inputZipCode,
+      },
+      department: inputDepartment,
     };
+
+
+    let employeeDataList = JSON.parse(localStorage.getItem('employeeDataList')) || []; // Récupérer les données d'employé existantes depuis localStorage ou créer un tableau vide s'il n'existe pas
+    employeeDataList.push(data); // Ajouter les nouvelles données d'employé au tableau
+    localStorage.setItem('employeeDataList', JSON.stringify(employeeDataList)); // Stocker les données d'employé mises à jour dans localStorage
+
+    dispatch(addData(data)); // Envoyer une action pour ajouter les données d'employé à l'état Redux
+    openConfirmModal(); // Ouvrir la modale de confirmation
+  };
+
   return (
     <div className="container">
       <a href="">View Current Employees</a>
@@ -108,7 +160,9 @@ export default function Form() {
             required
             value={inputState}
             onChange={(e) => setInputState(e.target.value)}
-          ></select>
+          >
+            <option value="">Select State</option>
+          </select>
 
           <label htmlFor="zip-code">Zip Code</label>
           <input
@@ -128,14 +182,15 @@ export default function Form() {
           value={inputDepartment}
           onChange={(e) => setInputDepartment(e.target.value)}
         >
-          <option>Sales</option>
-          <option>Marketing</option>
-          <option>Engineering</option>
-          <option>Human Resources</option>
-          <option>Legal</option>
+          <option value="Sales">Sales</option>
+          <option value="Marketing">Marketing</option>
+          <option value="Engineering">Engineering</option>
+          <option value="Human Resources">Human Resources</option>
+          <option value="Legal">Legal</option>
         </select>
       </form>
       <button onClick={handleSave}>Save</button>
+      {showModal && <ConfirmModal />}
     </div>
   );
 }
