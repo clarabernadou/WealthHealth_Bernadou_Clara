@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 import { addData } from "../Reducers/dataReducer";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import CustomDatePicker from "./DatePicker";
+import CountrySelector from "./CountrySelector";
 
 export default function Form() {
   const dispatch = useDispatch(); // Ajouter dispatch pour l'action Redux
@@ -123,6 +125,8 @@ export default function Form() {
           onChange={(e) => setInputBirthDate(e.target.value)}
         />
 
+        {/* <CustomDatePicker /> */}
+
         <label htmlFor="start-date">Start Date</label>
         <input
           id="start-date"
@@ -154,7 +158,7 @@ export default function Form() {
           />
 
           <label htmlFor="state">State</label>
-          <select
+          {/* <select
             name="state"
             id="state"
             required
@@ -162,7 +166,9 @@ export default function Form() {
             onChange={(e) => setInputState(e.target.value)}
           >
             <option value="">Select State</option>
-          </select>
+          </select> */}
+
+          <CountrySelector />
 
           <label htmlFor="zip-code">Zip Code</label>
           <input
