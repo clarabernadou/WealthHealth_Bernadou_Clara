@@ -1,50 +1,20 @@
 import React, { useState } from "react";
-import { useDispatch } from 'react-redux';
-import { addData } from "../Reducers/dataReducer";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import CustomDatePicker from "./DatePicker";
-import CountrySelector from "./CountrySelector";
+import StateSelector from "./CountrySelector";
 
 export default function Form() {
-  const dispatch = useDispatch(); // Ajouter dispatch pour l'action Redux
-
-  // Créer des états pour stocker les valeurs d'entrée
   const [inputFirstName, setInputFirstName] = useState("");
   const [inputLastName, setInputLastName] = useState("");
-  const [inputBirthDate, setInputBirthDate] = useState("");
-  const [inputStartDate, setInputStartDate] = useState("");
+  const [inputBirthDate, setInputBirthDate] = useState(Date());
+  const [inputStartDate, setInputStartDate] = useState(Date());
   const [inputStreet, setInputStreet] = useState("");
   const [inputCity, setInputCity] = useState("");
-  const [inputState, setInputState] = useState("");
+  const [inputState, setInputState] = useState("Alabama");
   const [inputZipCode, setInputZipCode] = useState("");
-  const [inputDepartment, setInputDepartment] = useState("");
-
-  // Créer un état pour la fenêtre modale de confirmation
+  const [inputDepartment, setInputDepartment] = useState("Sales");
   const [showModal, setShowModal] = useState(false);
-
-  function ConfirmModal() {
-    return (
-      <div className="backgroundModal">
-        <div id="confirmation" className="modal">
-          Employee Created!      
-          <FontAwesomeIcon
-            icon={faTimes}
-            style={{
-              color: "rgb(255, 255, 255)",
-              backgroundColor: "black",
-              padding: "7px 9px",
-              borderRadius: "25px",
-              position: "absolute",
-              top: "-15px",
-              right: "-15px",
-            }}
-            onClick={closeConfirmModal}
-          />
-        </div>
-      </div>
-    );
-  }
 
   const openConfirmModal = () => {
     setShowModal(true);
@@ -55,21 +25,22 @@ export default function Form() {
   };
 
   const handleSave = () => {
-    // Vérifiez si tous les champs de texte sont remplis
-    const inputs = document.querySelectorAll('input')
-    let isFormValid = true;
-    inputs.forEach(input => {
-      if (input.value.trim() === "") {
-        isFormValid = false;
-      }
-    });
-
-    if (!isFormValid) {
-      alert('Veuillez remplir tous les champs de texte.');
-      return;
+    if (inputBirthDate == null) {
+      setInputBirthDate(Date());
     }
 
-    // Récupérer les données de l'employé à partir des entrées du formulaire
+    if (inputStartDate == null) {
+      setInputStartDate(Date());
+    }
+
+    const inputs = document.querySelectorAll('input');
+    for (let i = 0; i < inputs.length; i++) {
+      if (inputs[i].value.trim() === "" || inputs[i].value.trim() === null) {
+        alert('Veuillez remplir tous les champs de texte.');
+        return;
+      }
+    }
+
     const data = {
       firstName: inputFirstName,
       lastName: inputLastName,
@@ -84,14 +55,37 @@ export default function Form() {
       department: inputDepartment,
     };
 
+    let employeeDataList = JSON.parse(localStorage.getItem('employeeDataList') || '[]');
+    employeeDataList.push(data);
+    localStorage.setItem('employeeDataList', JSON.stringify(employeeDataList));
 
-    let employeeDataList = JSON.parse(localStorage.getItem('employeeDataList')) || []; // Récupérer les données d'employé existantes depuis localStorage ou créer un tableau vide s'il n'existe pas
-    employeeDataList.push(data); // Ajouter les nouvelles données d'employé au tableau
-    localStorage.setItem('employeeDataList', JSON.stringify(employeeDataList)); // Stocker les données d'employé mises à jour dans localStorage
-
-    dispatch(addData(data)); // Envoyer une action pour ajouter les données d'employé à l'état Redux
-    openConfirmModal(); // Ouvrir la modale de confirmation
+    openConfirmModal();
   };
+
+  const handleStateChange = (selectedState) => {
+    setInputState(selectedState);
+  };
+
+  const ConfirmModal = () => (
+    <div className="backgroundModal">
+      <div id="confirmation" className="modal">
+        Employee Created!      
+        <FontAwesomeIcon
+          icon={faTimes}
+          style={{
+            color: "rgb(255, 255, 255)",
+            backgroundColor: "black",
+            padding: "7px 9px",
+            borderRadius: "25px",
+            position: "absolute",
+            top: "-15px",
+            right: "-15px",
+          }}
+          onClick={closeConfirmModal}
+        />
+      </div>
+    </div>
+  );
 
   return (
     <div className="container">
@@ -117,23 +111,17 @@ export default function Form() {
         />
 
         <label htmlFor="date-of-birth">Date of Birth</label>
-        <input
+        <CustomDatePicker  
+          selected={inputBirthDate} 
+          onChange={(date) => setInputBirthDate(date)} 
           id="date-of-birth"
-          type="text"
-          required
-          value={inputBirthDate}
-          onChange={(e) => setInputBirthDate(e.target.value)}
         />
 
-        {/* <CustomDatePicker /> */}
-
         <label htmlFor="start-date">Start Date</label>
-        <input
+        <CustomDatePicker  
+          selected={inputStartDate} 
+          onChange={(date) => setInputStartDate(date)} 
           id="start-date"
-          type="text"
-          required
-          value={inputStartDate}
-          onChange={(e) => setInputStartDate(e.target.value)}
         />
 
         <fieldset className="address">
@@ -158,17 +146,10 @@ export default function Form() {
           />
 
           <label htmlFor="state">State</label>
-          {/* <select
-            name="state"
-            id="state"
-            required
-            value={inputState}
-            onChange={(e) => setInputState(e.target.value)}
-          >
-            <option value="">Select State</option>
-          </select> */}
-
-          <CountrySelector />
+          <StateSelector 
+            value={inputState}  
+            onChange={handleStateChange}
+          />
 
           <label htmlFor="zip-code">Zip Code</label>
           <input

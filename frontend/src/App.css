@@ -1,3 +1,7 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .title {
   display: flex;
   align-items: center;
@@ -54,4 +58,27 @@ label {
   border-radius: 8px;
   box-shadow: 0 0 10px #000;
   text-align: left;
+}
+
+/* DATE PICKER */
+.react-datepicker__day-names, .react-datepicker__week {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.react-datepicker__header:not(.react-datepicker__header--has-time-select) {
+  width: 220px;
+}
+
+/* COUNTRY SELECTOR */
+.css-13cymwt-control {
+  border: 1px solid #c5c5c5 !important;
+  background: #f6f6f6 !important;
+}
+
+.css-1jqq78o-placeholder{
+  color: #000 !important;
+  font-weight: normal !important;
+  font-size: 15px;
 }
