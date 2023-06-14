@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import { format } from "date-fns";
 import CustomDatePicker from "./DatePicker";
 import StateSelector from "./CountrySelector";
 
 export default function Form() {
   const [inputFirstName, setInputFirstName] = useState("");
   const [inputLastName, setInputLastName] = useState("");
-  const [inputBirthDate, setInputBirthDate] = useState(Date());
-  const [inputStartDate, setInputStartDate] = useState(Date());
+  const [inputBirthDate, setInputBirthDate] = useState(new Date());
+  const [inputStartDate, setInputStartDate] = useState(new Date());  
   const [inputStreet, setInputStreet] = useState("");
   const [inputCity, setInputCity] = useState("");
   const [inputState, setInputState] = useState("Alabama");
@@ -26,26 +27,26 @@ export default function Form() {
 
   const handleSave = () => {
     if (inputBirthDate == null) {
-      setInputBirthDate(Date());
+      setInputBirthDate(new Date());
     }
-
+  
     if (inputStartDate == null) {
-      setInputStartDate(Date());
+      setInputStartDate(new Date());
     }
 
-    const inputs = document.querySelectorAll('input');
-    for (let i = 0; i < inputs.length; i++) {
-      if (inputs[i].value.trim() === "" || inputs[i].value.trim() === null) {
-        alert('Veuillez remplir tous les champs de texte.');
-        return;
-      }
+    if (!inputFirstName || !inputLastName || !inputStreet || !inputCity || !inputZipCode || !inputDepartment) {
+      alert('Veuillez remplir tous les champs de texte.');
+      return;
     }
+
+    const inputBirthDateFormatted = format(inputBirthDate, "dd/MM/yyyy");
+    const inputStartDateFormatted = format(inputStartDate, "dd/MM/yyyy");
 
     const data = {
       firstName: inputFirstName,
       lastName: inputLastName,
-      birthDate: inputBirthDate,
-      startDate: inputStartDate,
+      birthDate: inputBirthDateFormatted,
+      startDate: inputStartDateFormatted,
       address: {
         street: inputStreet,
         city: inputCity,
