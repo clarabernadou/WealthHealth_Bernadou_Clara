@@ -5,6 +5,7 @@ import store from "./store";
 import "./App.css";
 
 import Form from "./Components/Form";
+import Table from "./Components/Table";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Form />} />
+          <Route path="table" element={<Table />} />
         </Routes>
       </BrowserRouter>
     </Provider>
