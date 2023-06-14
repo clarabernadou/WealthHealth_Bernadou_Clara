@@ -100,3 +100,8 @@ label {
   align-items: center;
   justify-content: space-between;
 }
+
+.sort-arrow {
+  display: flex;
+  align-items: center;
+}
