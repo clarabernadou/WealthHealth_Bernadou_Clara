@@ -80,7 +80,7 @@ export default function Form() {
   const [inputStartDate, setInputStartDate] = useState(new Date());
   const [inputStreet, setInputStreet] = useState("");
   const [inputCity, setInputCity] = useState("");
-  const [inputState, setInputState] = useState(stateOptions[0].label);
+  const [inputState, setInputState] = useState(stateOptions[0].value);
   const [inputZipCode, setInputZipCode] = useState("");
   const [inputDepartment, setInputDepartment] = useState(departmentOptions[0].value);
   

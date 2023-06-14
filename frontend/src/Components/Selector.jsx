@@ -6,7 +6,7 @@ function Selector({ onChange, inputOptions }) {
 
   const handleChange = (selectedOption) => {
     setStateValue(selectedOption);
-    onChange(selectedOption.label);
+    onChange(selectedOption.value);
   };
 
   return (
