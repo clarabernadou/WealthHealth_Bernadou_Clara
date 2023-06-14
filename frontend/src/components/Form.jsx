@@ -1,47 +1,52 @@
 import React, { useState } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import { format } from "date-fns";
 import CustomDatePicker from "./DatePicker";
 import StateSelector from "./CountrySelector";
 
+// Import modal close icon
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
+
+// Import format to change the date format
+import { format } from "date-fns";
+
 export default function Form() {
+
+  // State variables for form inputs
   const [inputFirstName, setInputFirstName] = useState("");
   const [inputLastName, setInputLastName] = useState("");
-  const [inputBirthDate, setInputBirthDate] = useState(new Date());
-  const [inputStartDate, setInputStartDate] = useState(new Date());  
+  const [inputBirthDate, setInputBirthDate] = useState(format(new Date(), "dd/MM/yyyy"));
+  const [inputStartDate, setInputStartDate] = useState(format(new Date(), "dd/MM/yyyy"));  
   const [inputStreet, setInputStreet] = useState("");
   const [inputCity, setInputCity] = useState("");
   const [inputState, setInputState] = useState("Alabama");
   const [inputZipCode, setInputZipCode] = useState("");
   const [inputDepartment, setInputDepartment] = useState("Sales");
+  
+  // State variable for modal visibility
   const [showModal, setShowModal] = useState(false);
 
+  // Function to open the confirmation modal
   const openConfirmModal = () => {
     setShowModal(true);
   };
 
+  // Function to close the confirmation modal
   const closeConfirmModal = () => {
     setShowModal(false);
   };
-
-  const handleSave = () => {
-    if (inputBirthDate == null) {
-      setInputBirthDate(new Date());
-    }
   
-    if (inputStartDate == null) {
-      setInputStartDate(new Date());
-    }
-
+  const handleSave = () => {
+    // Check if all required fields are filled
     if (!inputFirstName || !inputLastName || !inputStreet || !inputCity || !inputZipCode || !inputDepartment) {
-      alert('Veuillez remplir tous les champs de texte.');
+      alert('Please fill in all text fields.');
       return;
     }
 
+    // Change date format
     const inputBirthDateFormatted = format(inputBirthDate, "dd/MM/yyyy");
     const inputStartDateFormatted = format(inputStartDate, "dd/MM/yyyy");
 
+    // Create an object with form data values
     const data = {
       firstName: inputFirstName,
       lastName: inputLastName,
@@ -56,17 +61,21 @@ export default function Form() {
       department: inputDepartment,
     };
 
+    // Get employee data list from localStorage and add the new data
     let employeeDataList = JSON.parse(localStorage.getItem('employeeDataList') || '[]');
     employeeDataList.push(data);
     localStorage.setItem('employeeDataList', JSON.stringify(employeeDataList));
 
+    // Open the confirmation modal
     openConfirmModal();
   };
 
+  // Function to handle state selection
   const handleStateChange = (selectedState) => {
     setInputState(selectedState);
   };
 
+  // Confirmation modal component
   const ConfirmModal = () => (
     <div className="backgroundModal">
       <div id="confirmation" className="modal">
@@ -93,6 +102,8 @@ export default function Form() {
       <a href="">View Current Employees</a>
       <h2>Create Employee</h2>
       <form action="#" id="create-employee">
+
+        {/* First Name input */}
         <label htmlFor="first-name">First Name</label>
         <input
           type="text"
@@ -102,6 +113,7 @@ export default function Form() {
           onChange={(e) => setInputFirstName(e.target.value)}
         />
 
+        {/* Last Name input */}
         <label htmlFor="last-name">Last Name</label>
         <input
           type="text"
@@ -111,6 +123,7 @@ export default function Form() {
           onChange={(e) => setInputLastName(e.target.value)}
         />
 
+        {/* Date of Birth input */}
         <label htmlFor="date-of-birth">Date of Birth</label>
         <CustomDatePicker  
           selected={inputBirthDate} 
@@ -118,6 +131,7 @@ export default function Form() {
           id="date-of-birth"
         />
 
+        {/* Start Date input */}
         <label htmlFor="start-date">Start Date</label>
         <CustomDatePicker  
           selected={inputStartDate} 
@@ -125,9 +139,11 @@ export default function Form() {
           id="start-date"
         />
 
+        {/* Address fieldset */}
         <fieldset className="address">
           <legend>Address</legend>
 
+          {/* Street input */}
           <label htmlFor="street">Street</label>
           <input
             id="street"
@@ -137,6 +153,7 @@ export default function Form() {
             onChange={(e) => setInputStreet(e.target.value)}
           />
 
+          {/* City input */}
           <label htmlFor="city">City</label>
           <input
             id="city"
@@ -146,12 +163,14 @@ export default function Form() {
             onChange={(e) => setInputCity(e.target.value)}
           />
 
+          {/* State selection */}
           <label htmlFor="state">State</label>
           <StateSelector 
             value={inputState}  
             onChange={handleStateChange}
           />
 
+          {/* Zip Code input */}
           <label htmlFor="zip-code">Zip Code</label>
           <input
             id="zip-code"
@@ -162,6 +181,7 @@ export default function Form() {
           />
         </fieldset>
 
+        {/* Department selection */}
         <label htmlFor="department">Department</label>
         <select
           name="department"
@@ -177,7 +197,11 @@ export default function Form() {
           <option value="Legal">Legal</option>
         </select>
       </form>
+
+      {/* Save button */}
       <button onClick={handleSave}>Save</button>
+      
+      {/* Confirmation modal */}
       {showModal && <ConfirmModal />}
     </div>
   );
