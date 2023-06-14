@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import CustomDatePicker from "./DatePicker";
-import StateSelector from "./CountrySelector";
+import Selector from "./Selector";
 
 // Import modal close icon
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -9,18 +9,80 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 // Import format to change the date format
 import { format } from "date-fns";
 
-export default function Form() {
+// States for state selector
+const stateOptions = [
+  { label: 'Alabama', value: 'AL' },
+  { label: 'Alaska', value: 'AK' },
+  { label: 'Arizona', value: 'AZ' },
+  { label: 'Arkansas', value: 'AR' },
+  { label: 'California', value: 'CA' },
+  { label: 'Colorado', value: 'CO' },
+  { label: 'Connecticut', value: 'CT' },
+  { label: 'Delaware', value: 'DE' },
+  { label: 'Florida', value: 'FL' },
+  { label: 'Georgia', value: 'GA' },
+  { label: 'Hawaii', value: 'HI' },
+  { label: 'Idaho', value: 'ID' },
+  { label: 'Illinois', value: 'IL' },
+  { label: 'Indiana', value: 'IN' },
+  { label: 'Iowa', value: 'IA' },
+  { label: 'Kansas', value: 'KS' },
+  { label: 'Kentucky', value: 'KY' },
+  { label: 'Louisiana', value: 'LA' },
+  { label: 'Maine', value: 'ME' },
+  { label: 'Maryland', value: 'MD' },
+  { label: 'Massachusetts', value: 'MA' },
+  { label: 'Michigan', value: 'MI' },
+  { label: 'Minnesota', value: 'MN' },
+  { label: 'Mississippi', value: 'MS' },
+  { label: 'Missouri', value: 'MO' },
+  { label: 'Montana', value: 'MT' },
+  { label: 'Nebraska', value: 'NE' },
+  { label: 'Nevada', value: 'NV' },
+  { label: 'New Hampshire', value: 'NH' },
+  { label: 'New Jersey', value: 'NJ' },
+  { label: 'New Mexico', value: 'NM' },
+  { label: 'New York', value: 'NY' },
+  { label: 'North Carolina', value: 'NC' },
+  { label: 'North Dakota', value: 'ND' },
+  { label: 'Ohio', value: 'OH' },
+  { label: 'Oklahoma', value: 'OK' },
+  { label: 'Oregon', value: 'OR' },
+  { label: 'Pennsylvania', value: 'PA' },
+  { label: 'Rhode Island', value: 'RI' },
+  { label: 'South Carolina', value: 'SC' },
+  { label: 'South Dakota', value: 'SD' },
+  { label: 'Tennessee', value: 'TN' },
+  { label: 'Texas', value: 'TX' },
+  { label: 'Utah', value: 'UT' },
+  { label: 'Vermont', value: 'VT' },
+  { label: 'Virginia', value: 'VA' },
+  { label: 'Washington', value: 'WA' },
+  { label: 'West Virginia', value: 'WV' },
+  { label: 'Wisconsin', value: 'WI' },
+  { label: 'Wyoming', value: 'WY' },
+];
 
+// Departments for department selector
+const departmentOptions = [
+  { label: 'Sales', value: 'Sales' },
+  { label: 'Marketing', value: 'Marketing' },
+  { label: 'Engineering', value: 'Engineering' },
+  { label: 'Human Resources', value: 'Human Resources' },
+  { label: 'Legal', value: 'Legal' }
+];
+
+export default function Form() {
   // State variables for form inputs
   const [inputFirstName, setInputFirstName] = useState("");
   const [inputLastName, setInputLastName] = useState("");
-  const [inputBirthDate, setInputBirthDate] = useState(format(new Date(), "dd/MM/yyyy"));
-  const [inputStartDate, setInputStartDate] = useState(format(new Date(), "dd/MM/yyyy"));  
+  const [inputBirthDate, setInputBirthDate] = useState(new Date());
+  const [inputStartDate, setInputStartDate] = useState(new Date());
   const [inputStreet, setInputStreet] = useState("");
   const [inputCity, setInputCity] = useState("");
-  const [inputState, setInputState] = useState("Alabama");
+  const [inputState, setInputState] = useState(stateOptions[0].label);
   const [inputZipCode, setInputZipCode] = useState("");
-  const [inputDepartment, setInputDepartment] = useState("Sales");
+  const [inputDepartment, setInputDepartment] = useState(departmentOptions[0].value);
   
   // State variable for modal visibility
   const [showModal, setShowModal] = useState(false);
@@ -73,6 +135,11 @@ export default function Form() {
   // Function to handle state selection
   const handleStateChange = (selectedState) => {
     setInputState(selectedState);
+  };
+
+  // Function to handle department selection
+  const handleDepartmentChange = (selectedDepartment) => {
+    setInputDepartment(selectedDepartment);
   };
 
   // Confirmation modal component
@@ -165,9 +232,10 @@ export default function Form() {
 
           {/* State selection */}
           <label htmlFor="state">State</label>
-          <StateSelector 
+          <Selector 
             value={inputState}  
             onChange={handleStateChange}
+            inputOptions={stateOptions}
           />
 
           {/* Zip Code input */}
@@ -183,24 +251,19 @@ export default function Form() {
 
         {/* Department selection */}
         <label htmlFor="department">Department</label>
-        <select
+        <Selector
           name="department"
           id="department"
           required
           value={inputDepartment}
-          onChange={(e) => setInputDepartment(e.target.value)}
-        >
-          <option value="Sales">Sales</option>
-          <option value="Marketing">Marketing</option>
-          <option value="Engineering">Engineering</option>
-          <option value="Human Resources">Human Resources</option>
-          <option value="Legal">Legal</option>
-        </select>
+          onChange={handleDepartmentChange}
+          inputOptions={departmentOptions}
+        />
       </form>
 
       {/* Save button */}
       <button onClick={handleSave}>Save</button>
-      
+
       {/* Confirmation modal */}
       {showModal && <ConfirmModal />}
     </div>
