@@ -17,11 +17,19 @@ export default function Table() {
   };
 
   const handleSort = (column) => {
-    
     const sortedArray = filteredData.slice().sort((a, b) => {
-      const valueA = a[column];
-      const valueB = b[column];
-
+      let valueA = null;
+      let valueB = null;
+  
+      if (column.includes("address")) {
+        const addressProperty = column.split('.')[1];
+        valueA = a.address[addressProperty];
+        valueB = b.address[addressProperty];
+      } else {
+        valueA = a[column];
+        valueB = b[column];
+      }
+  
       if (sortOrder === "asc") {
         return valueA.localeCompare(valueB);
       } else {
