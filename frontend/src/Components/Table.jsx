@@ -72,6 +72,7 @@ export default function Table() {
     const firstName = employee.firstName.toLowerCase();
     const lastName = employee.lastName.toLowerCase();
     const birthDate = employee.birthDate;
+    const department = employee.department.toLowerCase();
     const startDate = employee.startDate;
     const street = employee.address.street.toLowerCase();
     const city = employee.address.city.toLowerCase();
@@ -82,6 +83,7 @@ export default function Table() {
       firstName.startsWith(search.toLowerCase()) ||
       lastName.includes(search.toLowerCase()) ||
       birthDate.includes(search) ||
+      department.includes(search.toLowerCase()) ||
       startDate.includes(search) ||
       street.includes(search.toLowerCase()) ||
       city.includes(search.toLowerCase()) ||
