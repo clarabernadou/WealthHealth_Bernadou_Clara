@@ -105,3 +105,13 @@ label {
   display: flex;
   align-items: center;
 }
+
+.paginated {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.homeLink {
+  text-align: center;
+}
