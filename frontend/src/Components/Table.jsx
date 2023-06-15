@@ -6,6 +6,8 @@ export default function Table() {
   const [employeeDataList, setEmployeeDataList] = useState([]);
   const [search, setSearch] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
+  const [entries, setEntries] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("employeeDataList") || "[]");
@@ -14,22 +16,23 @@ export default function Table() {
 
   const handleSearch = (event) => {
     setSearch(event.target.value);
+    setCurrentPage(1);
   };
 
   const handleSort = (column) => {
-    const sortedArray = filteredData.slice().sort((a, b) => {
+    const sortedArray = employeeDataList.slice().sort((a, b) => {
       let valueA = null;
       let valueB = null;
-  
+
       if (column.includes("address")) {
-        const addressProperty = column.split('.')[1];
+        const addressProperty = column.split(".")[1];
         valueA = a.address[addressProperty];
         valueB = b.address[addressProperty];
       } else {
         valueA = a[column];
         valueB = b[column];
       }
-  
+
       if (sortOrder === "asc") {
         return valueA.localeCompare(valueB);
       } else {
@@ -40,6 +43,29 @@ export default function Table() {
     const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
     setSortOrder(newSortOrder);
     setEmployeeDataList(sortedArray);
+    setCurrentPage(1);
+  };
+
+  const handleEntriesChange = (event) => {
+    setEntries(parseInt(event.target.value));
+    setCurrentPage(1);
+  };
+
+  const handlePrevious = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNext = () => {
+    const maxPage = Math.ceil(filteredData.length / entries);
+    if (currentPage < maxPage) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
   const filteredData = employeeDataList.filter((employee) => {
@@ -63,7 +89,25 @@ export default function Table() {
       zipCode.includes(search)
     );
   });
-  console.log(filteredData);
+
+  const startIndex = (currentPage - 1) * entries;
+  const endIndex = startIndex + entries;
+  const paginatedData = filteredData.slice(startIndex, endIndex);
+
+  const maxPage = Math.ceil(filteredData.length / entries);
+
+  const pageButtons = [];
+  for (let page = 1; page <= maxPage; page++) {
+    pageButtons.push(
+      <button
+        key={page}
+        onClick={() => handlePageChange(page)}
+        className={currentPage === page ? "active" : ""}
+      >
+        {page}
+      </button>
+    );
+  }
 
   return (
     <div className="table-wrapper">
@@ -71,7 +115,7 @@ export default function Table() {
       <div className="table-header">
         <label>
           Show
-          <select>
+          <select value={entries} onChange={handleEntriesChange}>
             <option>10</option>
             <option>25</option>
             <option>50</option>
@@ -144,7 +188,7 @@ export default function Table() {
           </tr>
         </thead>
         <tbody className="custom-tbody">
-          {filteredData.map((employee, index) => (
+          {paginatedData.map((employee, index) => (
             <tr key={index}>
               <td>{employee.firstName}</td>
               <td>{employee.lastName}</td>
@@ -159,6 +203,22 @@ export default function Table() {
           ))}
         </tbody>
       </table>
+      <div className="paginated">
+        <p>
+          Showing {((currentPage - 1) * entries) + 1} to {Math.min(currentPage * entries, filteredData.length)} of{" "}
+          {filteredData.length} entries
+        </p>
+        <div>
+          <button onClick={handlePrevious} disabled={currentPage === 1}>
+            Previous
+          </button>
+          {pageButtons}
+          <button onClick={handleNext} disabled={currentPage === maxPage}>
+            Next
+          </button>
+        </div>
+      </div>
+      <a href="/" className="homeLink">Home</a>
     </div>
   );
 }
