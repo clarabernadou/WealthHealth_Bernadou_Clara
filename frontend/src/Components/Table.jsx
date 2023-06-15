@@ -4,6 +4,7 @@ import { faSort, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons"
 import "./table.css";
 
 export default function Table() {
+  // State variables for store infos
   const [employeeDataList, setEmployeeDataList] = useState([]);
   const [search, setSearch] = useState("");
   const [sortOrder, setSortOrder] = useState({});
@@ -11,15 +12,17 @@ export default function Table() {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("employeeDataList") || "[]");
+    const data = JSON.parse(localStorage.getItem("employeeDataList") || "[]"); // Recovery employee list from local storage
     setEmployeeDataList(data);
   }, []);
 
+  // Recovery search value and reset to the first page
   const handleSearch = (event) => {
     setSearch(event.target.value);
     setCurrentPage(1);
   };
 
+  // Sort the employee data based on the selected column
   const handleSort = (column) => {
     const isDesc = sortOrder[column] === "desc";
     const newSortOrder = isDesc ? "asc" : "desc";
@@ -29,10 +32,12 @@ export default function Table() {
       let valueB = null;
   
       if (column.includes("address")) {
+        // Sorting for address properties
         const addressProperty = column.split(".")[1];
         valueA = a.address[addressProperty];
         valueB = b.address[addressProperty];
       } else {
+        // Sorting for other properties
         valueA = a[column];
         valueB = b[column];
       }
@@ -54,17 +59,20 @@ export default function Table() {
     setCurrentPage(1);
   };
 
+  // Update the number of entries per page and reset to the first page
   const handleEntriesChange = (event) => {
     setEntries(parseInt(event.target.value));
     setCurrentPage(1);
   };
 
+   // Navigate to the previous page
   const handlePrevious = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
   };
 
+  // Navigate to the next page
   const handleNext = () => {
     const maxPage = Math.ceil(filteredData.length / entries);
     if (currentPage < maxPage) {
@@ -72,10 +80,12 @@ export default function Table() {
     }
   };
 
+  // Navigate to a specific page
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
+  // Filter the employee data with search bar value
   const filteredData = employeeDataList.filter((employee) => {
     const firstName = employee.firstName.toLowerCase();
     const lastName = employee.lastName.toLowerCase();
@@ -108,6 +118,7 @@ export default function Table() {
 
   const pageButtons = [];
   for (let page = 1; page <= maxPage; page++) {
+    // Generate page buttons for pagination
     pageButtons.push(
       <button
         key={page}
@@ -120,6 +131,7 @@ export default function Table() {
     );
   }
 
+  // Get the sort icon with the current sort order of the column
   const getSortIcon = (column) => {
     if (sortOrder[column] === "desc") {
       return faSortUp;
