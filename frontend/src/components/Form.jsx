@@ -166,7 +166,7 @@ export default function Form() {
 
   return (
     <div className="container">
-      <a href="">View Current Employees</a>
+      <a href="/table">View Current Employees</a>
       <h2>Create Employee</h2>
       <form action="#" id="create-employee">
 
