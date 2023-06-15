@@ -238,8 +238,8 @@ export default function Table() {
       </table>
       <div className="paginated">
         <p>
-          Showing {((currentPage - 1) * entries) + 1} to {Math.min(currentPage * entries, filteredData.length)} of{" "}
-          {filteredData.length} entries
+          Showing <strong>{((currentPage - 1) * entries) + 1}</strong> to <strong>{Math.min(currentPage * entries, filteredData.length)}</strong> of{" "}
+          <strong>{filteredData.length}</strong> entries
         </p>
         <div className="paginated-btn">
           <button onClick={handlePrevious} disabled={currentPage === 1}>

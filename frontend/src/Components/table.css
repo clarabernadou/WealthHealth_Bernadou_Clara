@@ -30,6 +30,7 @@ table {
 
 .paginated p {
     margin: 0;
+    font-size: 0.9em;
 }
   
 .paginated-btn button {
