@@ -1,0 +1,38 @@
+label {
+    font-weight: 600;
+}
+
+#search {
+    background-color: white;
+    padding: 0.5em;
+    margin-left: 1em;
+}
+
+.show-entries {
+    margin: 0 0.5em;
+}
+
+.sort-icon {
+    margin-left: 0.3em;
+}
+
+table {
+    background-color: white;
+    padding: 1em;
+    border-radius: 1em;
+}
+
+.paginated {
+    display: flex;
+    align-items: flex-start;
+    margin: 1em 0;
+}
+
+.paginated p {
+    margin: 0;
+}
+  
+.paginated-btn button {
+    background-color: transparent;
+    border: none;
+}
