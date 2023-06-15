@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import CustomDatePicker from "./DatePicker";
 import Selector from "./Selector";
+import "./form.css"
 
 // Import modal close icon
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -262,7 +263,7 @@ export default function Form() {
       </form>
 
       {/* Save button */}
-      <button onClick={handleSave}>Save</button>
+      <button className="save-btn" onClick={handleSave}>Save</button>
 
       {/* Confirmation modal */}
       {showModal && <ConfirmModal />}

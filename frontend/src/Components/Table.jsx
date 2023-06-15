@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSort } from "@fortawesome/free-solid-svg-icons";
+import { faSort, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
+import "./table.css";
 
 export default function Table() {
   const [employeeDataList, setEmployeeDataList] = useState([]);
   const [search, setSearch] = useState("");
-  const [sortOrder, setSortOrder] = useState("asc");
+  const [sortOrder, setSortOrder] = useState({});
   const [entries, setEntries] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -20,10 +21,13 @@ export default function Table() {
   };
 
   const handleSort = (column) => {
+    const isDesc = sortOrder[column] === "desc";
+    const newSortOrder = isDesc ? "asc" : "desc";
+  
     const sortedArray = employeeDataList.slice().sort((a, b) => {
       let valueA = null;
       let valueB = null;
-
+  
       if (column.includes("address")) {
         const addressProperty = column.split(".")[1];
         valueA = a.address[addressProperty];
@@ -32,16 +36,20 @@ export default function Table() {
         valueA = a[column];
         valueB = b[column];
       }
-
-      if (sortOrder === "asc") {
-        return valueA.localeCompare(valueB);
-      } else {
+  
+      if (isDesc) {
         return valueB.localeCompare(valueA);
+      } else {
+        return valueA.localeCompare(valueB);
       }
     });
-
-    const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
-    setSortOrder(newSortOrder);
+  
+    const updatedSortOrder = {};
+    Object.keys(sortOrder).forEach((key) => {
+      updatedSortOrder[key] = "";
+    });
+  
+    setSortOrder({ ...updatedSortOrder, [column]: newSortOrder });
     setEmployeeDataList(sortedArray);
     setCurrentPage(1);
   };
@@ -105,11 +113,22 @@ export default function Table() {
         key={page}
         onClick={() => handlePageChange(page)}
         className={currentPage === page ? "active" : ""}
+        style={{ fontWeight: currentPage === page ? 600 : "normal" }}
       >
         {page}
       </button>
     );
   }
+
+  const getSortIcon = (column) => {
+    if (sortOrder[column] === "desc") {
+      return faSortUp;
+    } else if (sortOrder[column] === "asc") {
+      return faSortDown;
+    } else {
+      return faSort;
+    }
+  };
 
   return (
     <div className="table-wrapper">
@@ -117,7 +136,7 @@ export default function Table() {
       <div className="table-header">
         <label>
           Show
-          <select value={entries} onChange={handleEntriesChange}>
+          <select className="show-entries" value={entries} onChange={handleEntriesChange}>
             <option>10</option>
             <option>25</option>
             <option>50</option>
@@ -136,55 +155,55 @@ export default function Table() {
             <th className="table-option" onClick={() => handleSort("firstName")}>
               <div className="sort-arrow">
                 First Name
-                <FontAwesomeIcon icon={faSort} />
+                <FontAwesomeIcon className="sort-icon" icon={getSortIcon("firstName")} />
               </div>
             </th>
             <th className="table-option" onClick={() => handleSort("lastName")}>
               <div className="sort-arrow">
                 Last Name
-                <FontAwesomeIcon icon={faSort} />
+                <FontAwesomeIcon className="sort-icon" icon={getSortIcon("lastName")} />
               </div>
             </th>
             <th className="table-option" onClick={() => handleSort("startDate")}>
               <div className="sort-arrow">
                 Start Date
-                <FontAwesomeIcon icon={faSort} />
+                <FontAwesomeIcon className="sort-icon" icon={getSortIcon("startDate")} />
               </div>
             </th>
             <th className="table-option" onClick={() => handleSort("department")}>
               <div className="sort-arrow">
                 Department
-                <FontAwesomeIcon icon={faSort} />
+                <FontAwesomeIcon className="sort-icon" icon={getSortIcon("department")} />
               </div>
             </th>
             <th className="table-option" onClick={() => handleSort("birthDate")}>
               <div className="sort-arrow">
                 Date of Birth
-                <FontAwesomeIcon icon={faSort} />
+                <FontAwesomeIcon className="sort-icon" icon={getSortIcon("birthDate")} />
               </div>
             </th>
             <th className="table-option" onClick={() => handleSort("address.street")}>
               <div className="sort-arrow">
                 Street
-                <FontAwesomeIcon icon={faSort} />
+                <FontAwesomeIcon className="sort-icon" icon={getSortIcon("address.street")} />
               </div>
             </th>
             <th className="table-option" onClick={() => handleSort("address.city")}>
               <div className="sort-arrow">
                 City
-                <FontAwesomeIcon icon={faSort} />
+                <FontAwesomeIcon className="sort-icon" icon={getSortIcon("address.city")} />
               </div>
             </th>
             <th className="table-option" onClick={() => handleSort("address.state")}>
               <div className="sort-arrow">
                 State
-                <FontAwesomeIcon icon={faSort} />
+                <FontAwesomeIcon className="sort-icon" icon={getSortIcon("address.state")} />
               </div>
             </th>
             <th className="table-option" onClick={() => handleSort("address.zipCode")}>
               <div className="sort-arrow">
                 Zip Code
-                <FontAwesomeIcon icon={faSort} />
+                <FontAwesomeIcon className="sort-icon" icon={getSortIcon("address.zipCode")} />
               </div>
             </th>
           </tr>
@@ -210,7 +229,7 @@ export default function Table() {
           Showing {((currentPage - 1) * entries) + 1} to {Math.min(currentPage * entries, filteredData.length)} of{" "}
           {filteredData.length} entries
         </p>
-        <div>
+        <div className="paginated-btn">
           <button onClick={handlePrevious} disabled={currentPage === 1}>
             Previous
           </button>
@@ -220,7 +239,7 @@ export default function Table() {
           </button>
         </div>
       </div>
-      <a href="/" className="homeLink">Home</a>
+      <a href="/">Home</a>
     </div>
   );
 }
