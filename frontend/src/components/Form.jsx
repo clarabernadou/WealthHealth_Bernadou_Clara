@@ -1,11 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CustomDatePicker from "./DatePicker";
 import Selector from "./Selector";
+import Modal from "./Modal"
 import "./form.css"
-
-// Import modal close icon
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 // Import format to change the date format
 import { format } from "date-fns";
@@ -87,15 +84,47 @@ export default function Form() {
   
   // State variable for modal visibility
   const [showModal, setShowModal] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  
+  useEffect(() => {
+    if (isModalOpen) {
+      // Disable form inputs and scroll when the modal is open
+      document.body.style.overflow = "hidden";
+      document.querySelectorAll("input, select, textarea").forEach((el) => {
+        el.setAttribute("disabled", "disabled");
+      });
+
+      // Close the confirmation modal with escape
+      document.addEventListener("keydown", handleKeyDown);
+      return () => {
+        document.removeEventListener("keydown", handleKeyDown);
+      };
+    } else {
+      document.body.style.overflow = "auto";
+      document.querySelectorAll("input, select, textarea").forEach((el) => {
+        el.removeAttribute("disabled");
+      });
+    }
+  }, [isModalOpen]);
 
   // Function to open the confirmation modal
   const openConfirmModal = () => {
     setShowModal(true);
+    setIsModalOpen(true);
   };
 
   // Function to close the confirmation modal
   const closeConfirmModal = () => {
     setShowModal(false);
+    setIsModalOpen(false);
+  };
+
+  // Function to close the confirmation modal with escape
+  const handleKeyDown = (event) => {
+    if (event.key === "Escape") {
+      closeConfirmModal();
+    }
   };
   
   const handleSave = () => {
@@ -142,28 +171,6 @@ export default function Form() {
   const handleDepartmentChange = (selectedDepartment) => {
     setInputDepartment(selectedDepartment);
   };
-
-  // Confirmation modal component
-  const ConfirmModal = () => (
-    <div className="backgroundModal">
-      <div id="confirmation" className="modal">
-        Employee Created!      
-        <FontAwesomeIcon
-          icon={faTimes}
-          style={{
-            color: "rgb(255, 255, 255)",
-            backgroundColor: "black",
-            padding: "7px 9px",
-            borderRadius: "25px",
-            position: "absolute",
-            top: "-15px",
-            right: "-15px",
-          }}
-          onClick={closeConfirmModal}
-        />
-      </div>
-    </div>
-  );
 
   return (
     <div className="container">
@@ -266,7 +273,11 @@ export default function Form() {
       <button className="save-btn" onClick={handleSave}>Save</button>
 
       {/* Confirmation modal */}
-      {showModal && <ConfirmModal />}
+      {showModal && (
+        <Modal closeConfirmModal={closeConfirmModal}>
+          Employee Created!
+        </Modal>
+      )}
     </div>
   );
 }
