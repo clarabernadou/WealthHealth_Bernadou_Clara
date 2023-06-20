@@ -37,3 +37,54 @@ table {
     background-color: transparent;
     border: none;
 }
+
+@media (min-width: 620px) and (max-width: 1024px) {
+    .table-wrapper {
+        margin: 0 50px;
+    }
+}
+
+@media (max-width: 620px) {
+    .table-wrapper {
+        margin: 0 20px;
+        display: block;
+        overflow-x: auto;
+    }
+
+    .table {
+        display: table;
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table tr {
+        display: flex;
+        flex-direction: column;
+        column-gap: 0.5em;
+        padding: 0.5em;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .table td {
+        display: block;
+        text-align: left;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .table td:before {
+        content: attr(data-label);
+        font-weight: normal;
+        text-transform: uppercase;
+    }
+
+    .paginated {
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+    .paginated-btn button {
+        display: inline-block;
+        margin: 0 0.5rem;
+    }
+}
