@@ -274,9 +274,7 @@ export default function Form() {
 
       {/* Confirmation modal */}
       {showModal && (
-        <Modal closeConfirmModal={closeConfirmModal}>
-          Employee Created!
-        </Modal>
+        <Modal closeConfirmModal={closeConfirmModal}></Modal>
       )}
     </div>
   );
