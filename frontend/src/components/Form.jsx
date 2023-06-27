@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import CustomDatePicker from "./DatePicker";
 import Selector from "./Selector";
-import Modal from "./Modal"
-import "./form.css"
+import "./styles/form.css";
+
+import { Modal } from 'reactjs-modal-clarabernadou';
 
 // Import format to change the date format
 import { format } from "date-fns";
@@ -81,12 +82,11 @@ export default function Form() {
   const [inputState, setInputState] = useState(stateOptions[0].value);
   const [inputZipCode, setInputZipCode] = useState("");
   const [inputDepartment, setInputDepartment] = useState(departmentOptions[0].value);
-  
+
   // State variable for modal visibility
   const [showModal, setShowModal] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  
   useEffect(() => {
     if (isModalOpen) {
       // Disable form inputs and scroll when the modal is open
@@ -126,7 +126,7 @@ export default function Form() {
       closeConfirmModal();
     }
   };
-  
+
   const handleSave = () => {
     // Check if all required fields are filled
     if (!inputFirstName || !inputLastName || !inputStreet || !inputCity || !inputZipCode || !inputDepartment) {

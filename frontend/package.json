@@ -21,6 +21,7 @@
     "react-select": "^5.7.3",
     "react-select-country-list": "^2.2.3",
     "reactable": "^1.1.0",
+    "reactjs-modal-clarabernadou": "^0.2.9",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
