@@ -73,15 +73,15 @@ const departmentOptions = [
 
 export default function Form() {
   // State variables for form inputs
-  const [inputFirstName, setInputFirstName] = useState("");
-  const [inputLastName, setInputLastName] = useState("");
-  const [inputBirthDate, setInputBirthDate] = useState(new Date());
-  const [inputStartDate, setInputStartDate] = useState(new Date());
-  const [inputStreet, setInputStreet] = useState("");
-  const [inputCity, setInputCity] = useState("");
-  const [inputState, setInputState] = useState(stateOptions[0].value);
-  const [inputZipCode, setInputZipCode] = useState("");
-  const [inputDepartment, setInputDepartment] = useState(departmentOptions[0].value);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [birthDate, setBirthDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date());
+  const [street, setStreet] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState(stateOptions[0].value);
+  const [zipCode, setZipCode] = useState("");
+  const [department, setDepartment] = useState(departmentOptions[0].value);
 
   // State variable for modal visibility
   const [showModal, setShowModal] = useState(false);
@@ -129,28 +129,28 @@ export default function Form() {
 
   const handleSave = () => {
     // Check if all required fields are filled
-    if (!inputFirstName || !inputLastName || !inputStreet || !inputCity || !inputZipCode || !inputDepartment) {
+    if (!firstName || !lastName || !street || !city || !zipCode || !department) {
       alert('Please fill in all text fields.');
       return;
     }
 
     // Change date format
-    const inputBirthDateFormatted = format(inputBirthDate, "dd/MM/yyyy");
-    const inputStartDateFormatted = format(inputStartDate, "dd/MM/yyyy");
+    const birthDateFormatted = format(birthDate, "dd/MM/yyyy");
+    const startDateFormatted = format(startDate, "dd/MM/yyyy");
 
     // Create an object with form data values
     const data = {
-      firstName: inputFirstName,
-      lastName: inputLastName,
-      birthDate: inputBirthDateFormatted,
-      startDate: inputStartDateFormatted,
+      firstName,
+      lastName,
+      birthDate: birthDateFormatted,
+      startDate: startDateFormatted,
       address: {
-        street: inputStreet,
-        city: inputCity,
-        state: inputState,
-        zipCode: inputZipCode,
+        street,
+        city,
+        state,
+        zipCode,
       },
-      department: inputDepartment,
+      department,
     };
 
     // Get employee data list from localStorage and add the new data
@@ -164,12 +164,12 @@ export default function Form() {
 
   // Function to handle state selection
   const handleStateChange = (selectedState) => {
-    setInputState(selectedState);
+    setState(selectedState);
   };
 
   // Function to handle department selection
   const handleDepartmentChange = (selectedDepartment) => {
-    setInputDepartment(selectedDepartment);
+    setDepartment(selectedDepartment);
   };
 
   return (
@@ -184,8 +184,9 @@ export default function Form() {
           type="text"
           id="first-name"
           required
-          value={inputFirstName}
-          onChange={(e) => setInputFirstName(e.target.value)}
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          aria-labelledby="first-name"
         />
 
         {/* Last Name input */}
@@ -194,24 +195,27 @@ export default function Form() {
           type="text"
           id="last-name"
           required
-          value={inputLastName}
-          onChange={(e) => setInputLastName(e.target.value)}
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          aria-labelledby="last-name"
         />
 
         {/* Date of Birth input */}
         <label htmlFor="date-of-birth">Date of Birth</label>
         <CustomDatePicker  
-          selected={inputBirthDate} 
-          onChange={(date) => setInputBirthDate(date)} 
+          selected={birthDate} 
+          onChange={(date) => setBirthDate(date)} 
           id="date-of-birth"
+          aria-labelledby="date-of-birth"
         />
 
         {/* Start Date input */}
         <label htmlFor="start-date">Start Date</label>
         <CustomDatePicker  
-          selected={inputStartDate} 
-          onChange={(date) => setInputStartDate(date)} 
+          selected={startDate} 
+          onChange={(date) => setStartDate(date)} 
           id="start-date"
+          aria-labelledby="start-date"
         />
 
         {/* Address fieldset */}
@@ -224,8 +228,9 @@ export default function Form() {
             id="street"
             type="text"
             required
-            value={inputStreet}
-            onChange={(e) => setInputStreet(e.target.value)}
+            value={street}
+            onChange={(e) => setStreet(e.target.value)}
+            aria-labelledby="street"
           />
 
           {/* City input */}
@@ -234,16 +239,18 @@ export default function Form() {
             id="city"
             type="text"
             required
-            value={inputCity}
-            onChange={(e) => setInputCity(e.target.value)}
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            aria-labelledby="city"
           />
 
           {/* State selection */}
           <label htmlFor="state">State</label>
           <Selector 
-            value={inputState}  
+            value={state}  
             onChange={handleStateChange}
             inputOptions={stateOptions}
+            aria-labelledby="state"
           />
 
           {/* Zip Code input */}
@@ -252,8 +259,9 @@ export default function Form() {
             id="zip-code"
             type="number"
             required
-            value={inputZipCode}
-            onChange={(e) => setInputZipCode(e.target.value)}
+            value={zipCode}
+            onChange={(e) => setZipCode(e.target.value)}
+            aria-labelledby="zip-code"
           />
         </fieldset>
 
@@ -263,9 +271,10 @@ export default function Form() {
           name="department"
           id="department"
           required
-          value={inputDepartment}
+          value={department}
           onChange={handleDepartmentChange}
           inputOptions={departmentOptions}
+          aria-labelledby="departement"
         />
       </form>
 
