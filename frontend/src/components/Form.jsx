@@ -184,9 +184,9 @@ export default function Form() {
           type="text"
           id="first-name"
           required
+          aria-labelledby="first-name"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
-          aria-labelledby="first-name"
         />
 
         {/* Last Name input */}
@@ -195,27 +195,31 @@ export default function Form() {
           type="text"
           id="last-name"
           required
+          aria-labelledby="last-name"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
-          aria-labelledby="last-name"
         />
 
         {/* Date of Birth input */}
         <label htmlFor="date-of-birth">Date of Birth</label>
         <CustomDatePicker  
+          name="date-of-birth"
+          id="date-of-birth"
+          required
+          aria-labelledby="date-of-birth"
           selected={birthDate} 
           onChange={(date) => setBirthDate(date)} 
-          id="date-of-birth"
-          aria-labelledby="date-of-birth"
         />
 
         {/* Start Date input */}
         <label htmlFor="start-date">Start Date</label>
         <CustomDatePicker  
+          name="start-date"
+          id="start-date"
+          required
+          aria-labelledby="start-date"
           selected={startDate} 
           onChange={(date) => setStartDate(date)} 
-          id="start-date"
-          aria-labelledby="start-date"
         />
 
         {/* Address fieldset */}
@@ -228,9 +232,9 @@ export default function Form() {
             id="street"
             type="text"
             required
+            aria-labelledby="street"
             value={street}
             onChange={(e) => setStreet(e.target.value)}
-            aria-labelledby="street"
           />
 
           {/* City input */}
@@ -239,14 +243,16 @@ export default function Form() {
             id="city"
             type="text"
             required
+            aria-labelledby="city"
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            aria-labelledby="city"
           />
 
           {/* State selection */}
           <label htmlFor="state">State</label>
           <Selector 
+            name="state"
+            id="state"
             value={state}  
             onChange={handleStateChange}
             inputOptions={stateOptions}
@@ -259,9 +265,9 @@ export default function Form() {
             id="zip-code"
             type="number"
             required
+            aria-labelledby="zip-code"
             value={zipCode}
             onChange={(e) => setZipCode(e.target.value)}
-            aria-labelledby="zip-code"
           />
         </fieldset>
 
@@ -271,10 +277,10 @@ export default function Form() {
           name="department"
           id="department"
           required
+          aria-labelledby="department"
           value={department}
           onChange={handleDepartmentChange}
           inputOptions={departmentOptions}
-          aria-labelledby="departement"
         />
       </form>
 

@@ -49,7 +49,12 @@ export default function CustomDatePicker({ value, onChange }) {
         nextMonthButtonDisabled,
       }) => (
         <div style={{ margin: 10, display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
-          <FontAwesomeIcon icon={faChevronLeft} onClick={decreaseMonth} disabled={prevMonthButtonDisabled} />
+          <FontAwesomeIcon 
+            icon={faChevronLeft} 
+            onClick={decreaseMonth} 
+            disabled={prevMonthButtonDisabled} 
+            aria-label="Last month"
+          />
           <FontAwesomeIcon
             icon={faHome}
             onClick={() => {
@@ -57,9 +62,14 @@ export default function CustomDatePicker({ value, onChange }) {
               changeMonth(getMonth(currentDate));
               changeYear(getYear(currentDate));
             }}
+            aria-label="Today"
           />
 
-          <select value={getYear(date)} onChange={({ target: { value } }) => changeYear(Number(value))}>
+          <select 
+            value={getYear(date)} 
+            onChange={({ target: { value } }) => changeYear(Number(value))}
+            aria-label="Year"
+          >
             {years.map((option) => (
               <option key={option} value={option}>
                 {option}
@@ -70,6 +80,7 @@ export default function CustomDatePicker({ value, onChange }) {
           <select
             value={months[getMonth(date)]}
             onChange={({ target: { value } }) => changeMonth(months.indexOf(value))}
+            aria-label="Month"
           >
             {months.map((option) => (
               <option key={option} value={option}>
@@ -77,7 +88,12 @@ export default function CustomDatePicker({ value, onChange }) {
               </option>
             ))}
           </select>
-          <FontAwesomeIcon icon={faChevronRight} onClick={increaseMonth} disabled={nextMonthButtonDisabled} />
+          <FontAwesomeIcon 
+            icon={faChevronRight} 
+            onClick={increaseMonth} 
+            disabled={nextMonthButtonDisabled}
+            aria-label="Next month" 
+          />
         </div>
       )}
       selected={startDate}
