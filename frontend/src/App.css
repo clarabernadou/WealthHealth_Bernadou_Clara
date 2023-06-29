@@ -44,7 +44,7 @@ label {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 0 200px;
+  margin: 0 100px;
 }
 
 .table-wrapper h1 {
