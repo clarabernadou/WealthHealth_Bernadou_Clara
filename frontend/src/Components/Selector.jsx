@@ -11,11 +11,12 @@ function Selector({ onChange, inputOptions }) {
 
   return (
     <Select
+      id='state'
       placeholder={inputOptions[0].label}
       options={inputOptions}
       value={stateValue}
       onChange={handleChange}
-      id='state'
+      aria-label='Choose a state'
     />
   );
 }

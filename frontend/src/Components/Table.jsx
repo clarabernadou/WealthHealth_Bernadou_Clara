@@ -158,7 +158,7 @@ export default function Table() {
         </label>
         <label>
           Search:
-          <input id="search" value={search} onChange={handleSearch} />
+          <input id="search" aria-label="search" value={search} onChange={handleSearch} />
         </label>
       </div>
       <table className="table" id="table">
