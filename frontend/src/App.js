@@ -7,7 +7,7 @@ import Table from "./Components/Table";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route path="/" element={<Form />} />
         <Route path="table" element={<Table />} />
