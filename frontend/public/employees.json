@@ -1,0 +1,158 @@
+[
+  {
+    "firstName": "Emma",
+    "lastName": "Martin",
+    "birthDate": "14/03/1990",
+    "startDate": "02/09/2019",
+    "address": {
+      "street": "12 Market Street",
+      "city": "San Francisco",
+      "state": "CA",
+      "zipCode": "94105"
+    },
+    "department": "Engineering"
+  },
+  {
+    "firstName": "Lucas",
+    "lastName": "Bernard",
+    "birthDate": "22/07/1987",
+    "startDate": "15/01/2018",
+    "address": {
+      "street": "48 Broadway",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "10004"
+    },
+    "department": "Sales"
+  },
+  {
+    "firstName": "Chloe",
+    "lastName": "Dubois",
+    "birthDate": "05/11/1993",
+    "startDate": "03/06/2021",
+    "address": {
+      "street": "210 Congress Avenue",
+      "city": "Austin",
+      "state": "TX",
+      "zipCode": "73301"
+    },
+    "department": "Marketing"
+  },
+  {
+    "firstName": "Noah",
+    "lastName": "Laurent",
+    "birthDate": "30/01/1985",
+    "startDate": "11/03/2016",
+    "address": {
+      "street": "75 State Street",
+      "city": "Boston",
+      "state": "MA",
+      "zipCode": "02109"
+    },
+    "department": "Legal"
+  },
+  {
+    "firstName": "Lea",
+    "lastName": "Moreau",
+    "birthDate": "18/09/1995",
+    "startDate": "20/09/2022",
+    "address": {
+      "street": "300 Pike Street",
+      "city": "Seattle",
+      "state": "WA",
+      "zipCode": "98101"
+    },
+    "department": "Human Resources"
+  },
+  {
+    "firstName": "Hugo",
+    "lastName": "Simon",
+    "birthDate": "09/12/1991",
+    "startDate": "07/05/2020",
+    "address": {
+      "street": "95 Wacker Drive",
+      "city": "Chicago",
+      "state": "IL",
+      "zipCode": "60601"
+    },
+    "department": "Engineering"
+  },
+  {
+    "firstName": "Manon",
+    "lastName": "Garcia",
+    "birthDate": "27/04/1989",
+    "startDate": "01/10/2017",
+    "address": {
+      "street": "500 Peachtree Street",
+      "city": "Atlanta",
+      "state": "GA",
+      "zipCode": "30308"
+    },
+    "department": "Sales"
+  },
+  {
+    "firstName": "Jules",
+    "lastName": "Roux",
+    "birthDate": "11/06/1994",
+    "startDate": "14/02/2023",
+    "address": {
+      "street": "88 Colfax Avenue",
+      "city": "Denver",
+      "state": "CO",
+      "zipCode": "80203"
+    },
+    "department": "Marketing"
+  },
+  {
+    "firstName": "Camille",
+    "lastName": "Fournier",
+    "birthDate": "03/08/1986",
+    "startDate": "25/11/2015",
+    "address": {
+      "street": "1200 Brickell Avenue",
+      "city": "Miami",
+      "state": "FL",
+      "zipCode": "33131"
+    },
+    "department": "Legal"
+  },
+  {
+    "firstName": "Louis",
+    "lastName": "Girard",
+    "birthDate": "19/02/1992",
+    "startDate": "09/08/2021",
+    "address": {
+      "street": "410 Hawthorne Street",
+      "city": "Portland",
+      "state": "OR",
+      "zipCode": "97214"
+    },
+    "department": "Engineering"
+  },
+  {
+    "firstName": "Alice",
+    "lastName": "Lambert",
+    "birthDate": "24/10/1988",
+    "startDate": "30/04/2019",
+    "address": {
+      "street": "65 Main Street",
+      "city": "Burlington",
+      "state": "VT",
+      "zipCode": "05401"
+    },
+    "department": "Human Resources"
+  },
+  {
+    "firstName": "Arthur",
+    "lastName": "Faure",
+    "birthDate": "07/01/1996",
+    "startDate": "12/12/2023",
+    "address": {
+      "street": "20 Pearl Street",
+      "city": "Columbus",
+      "state": "OH",
+      "zipCode": "43215"
+    },
+    "department": "Sales"
+  }
+]
