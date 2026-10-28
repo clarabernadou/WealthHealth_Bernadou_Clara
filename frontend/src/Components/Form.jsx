@@ -174,7 +174,7 @@ export default function Form() {
 
   return (
     <div className="container">
-      <a href="/table">View Current Employees</a>
+      <a href={process.env.PUBLIC_URL + "/table"}>View Current Employees</a>
       <h2>Create Employee</h2>
       <form action="#" id="create-employee">
 
