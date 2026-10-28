@@ -12,8 +12,17 @@ export default function Table() {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("employeeDataList") || "[]"); // Recovery employee list from local storage
-    setEmployeeDataList(data);
+    // Recovery employee list from local storage
+    const data = JSON.parse(localStorage.getItem("employeeDataList") || "[]");
+    if (data.length > 0) {
+      setEmployeeDataList(data);
+      return;
+    }
+    // No employee saved yet: load the sample employees
+    fetch(process.env.PUBLIC_URL + "/employees.json")
+      .then((response) => response.json())
+      .then((sample) => setEmployeeDataList(sample))
+      .catch(() => setEmployeeDataList([]));
   }, []);
 
   // Recovery search value and reset to the first page
