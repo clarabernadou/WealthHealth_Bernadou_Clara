@@ -251,7 +251,7 @@ export default function Table() {
           </button>
         </div>
       </div>
-      <a href="/">Home</a>
+      <a href={process.env.PUBLIC_URL + "/"}>Home</a>
     </div>
   );
 }
